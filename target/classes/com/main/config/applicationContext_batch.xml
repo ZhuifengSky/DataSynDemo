@@ -1,11 +1,19 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:batch="http://www.springframework.org/schema/batch" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/batch
 		http://www.springframework.org/schema/batch/spring-batch.xsd
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
 	">
 
+     <context:annotation-config/>
+    <!-- Component scan to find all Spring components -->
+    <context:component-scan base-package="com.main.modules"/>
+    
+    
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
@@ -17,7 +25,7 @@
 	</bean>
 
 	<!--定义目标数据源 -->
-	<bean id="targetDataSourceServer" class="org.apache.commons.dbcp.BasicDataSource"
+	<bean id="targetDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
@@ -32,17 +40,25 @@
 		<property name="username" value="${jdbc.username2}" />
 		<property name="password" value="${jdbc.password2}" />
 	</bean>
+   <!--jdbcTemplate 配置  -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="targetDataSource"/>
+    </bean>
 
 	<!--Spring Batch批处理配置 -->
 	<bean id="jobRepository"
 		class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
-		<property name="dataSource" ref="targetDataSourceServer" />
+		<property name="dataSource" ref="targetDataSource" />
 		<property name="transactionManager" ref="transactionManager" />
 		<property name="databaseType" value="mysql" />
 	</bean>
 	<!--事务配置 -->
-	<bean id="transactionManager"
+	<bean id="transactionManager2"
 		class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
+    <!--或者下面这种  -->		
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="targetDataSource"/>
+    </bean>
 	<!--任务启动器 配置 -->
 	<bean id="jobLauncher"
 		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">

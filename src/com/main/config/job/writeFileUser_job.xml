@@ -7,30 +7,27 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
     ">
 
+	<!-- <import resource="../applicationContext_batch.xml" /> -->
 
 	<bean id="student" class="com.main.modules.student.modelmap.Student"
 		scope="prototype" />
-	<bean id="studentMapper" class="com.main.modules.student.modelmap.StudentMapper" />
+	<bean id="studentMapper" class="com.main.modules.student.modelmap.StudentMapper"></bean>
 	<bean id="studentProcessor" class="com.main.modules.student.processor.StudentProcessor" />
-	<bean id="ps" class="com.main.modules.student.ps.StudentPrepareMent"/>
+
 	<!-- reader 配置-->
 	<bean id="studentReader"
 		class="org.springframework.batch.item.database.JdbcCursorItemReader" scope="step">
 		<property name="dataSource" ref="sourceDataSource" />
 		<!--Sql语句 -->
-		<property name="sql" value="SELECT user_type,ACCOUNT_NO FROM T_STUDENT where id > ?" />
-		<property name="preparedStatementSetter" ref="ps"></property>
+		<property name="sql" value="SELECT user_type,ACCOUNT_NO FROM T_STUDENT" />
 		<!--需要一个映射类 -->
 		<property name="rowMapper" ref="studentMapper" />
 	</bean>
-   
-
-
 
 	<!-- Writer 配置 -->
 	<bean id="studentWriter"
 		class="org.springframework.batch.item.database.JdbcBatchItemWriter">
-		<property name="dataSource" ref="targetDataSource" />
+		<property name="dataSource" ref="targetDataSourceServer" />
 		<property name="sql"
 			value="insert into t_student(studentname,age)
 	    	values(:studentName,:age)" />
@@ -38,7 +35,6 @@
 			<bean class="org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider" />
 		</property>
 	</bean>
-	
 	<!-- Job 配置  -->
 	<batch:job id="synStudent">
 		<batch:step id="step1">
