@@ -1,4 +1,4 @@
-package com.main.modules.student.modelmap;
+package com.main.modules.pojo;
 
 public class Student {
 

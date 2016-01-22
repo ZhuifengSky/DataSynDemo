@@ -11,7 +11,7 @@
 			<bean id="cronTrigger"
 				class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 				<property name="jobDetail" ref="jobDetail" />
-				<property name="cronExpression" value="0 54 17 * * ?" />
+				<property name="cronExpression" value="0 0/5 * * * ?" />
 			</bean>
 		</property>
 	</bean>
@@ -27,8 +27,7 @@
 				<entry key="jobName" value="synStudent" />
 				<entry key="jobLocator" value-ref="jobRegistry" />
 				<entry key="jobLauncher" value-ref="jobLauncher" />
-				<entry key="param1" value="mkyong1" />
-				<entry key="param2" value="mkyong2" />
+				<entry key="param" value="testParam" />
 			</map>
 		</property>
 	</bean>

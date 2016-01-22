@@ -1,8 +1,9 @@
-package com.main.modules.student.processor;
+package com.main.modules.processor;
 
 import org.springframework.batch.item.ItemProcessor;
 
-import com.main.modules.student.modelmap.Student;
+import com.main.modules.pojo.Student;
+
 
 /**
  * 处理过程 Title: MessageProcessor.java Description: Company: www.edu24ol.com

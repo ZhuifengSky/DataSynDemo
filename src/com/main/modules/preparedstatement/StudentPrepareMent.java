@@ -1,4 +1,4 @@
-package com.main.modules.student.ps;
+package com.main.modules.preparedstatement;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

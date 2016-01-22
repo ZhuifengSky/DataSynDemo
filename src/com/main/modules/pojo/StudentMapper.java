@@ -1,4 +1,4 @@
-package com.main.modules.student.modelmap;
+package com.main.modules.pojo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,8 +23,8 @@ public class StudentMapper implements RowMapper<Student> {
 	@Override
 	public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Student student = new Student();
-		student.setStudentName(rs.getString("ACCOUNT_NO"));
-		student.setAge(rs.getString("USER_TYPE"));
+		student.setStudentName(rs.getString("STUDENTNAME"));
+		student.setAge(rs.getString("AGE"));
 		return student;
 	}
 
